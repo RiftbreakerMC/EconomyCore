@@ -3,7 +3,7 @@
 # License: https://github.com/TheNewEconomy/EconomyCore/blob/main/license.md
 Core:
 
-  config-version: 8
+  config-version: 9
 
   #Cracked Server? Set this to true. May cause data issues as spigot/paper UUIDs are unpredictable.
   #Do not change this unless you know what you're doing.
@@ -136,6 +136,360 @@ Core:
 
       #How close to another player someone must be, in blocks, in order to use /pay on them. Set to 0 to disable.
       Radius: 0
+
+  #All configurations relating to GUI menu layouts.
+  #Slots are zero-based inventory slots. Rows may be 1-6.
+  GUI:
+
+    Layout:
+
+      MyBal:
+        Rows: 6
+        Slots:
+          Main:
+            Currencies:
+              - 10
+              - 12
+              - 14
+              - 16
+              - 18
+              - 20
+              - 22
+              - 24
+          Actions:
+            Convert: 10
+            Deposit: 12
+            Withdraw: 14
+          Breakdown:
+            Entries:
+              - 10
+              - 12
+              - 14
+              - 16
+              - 18
+              - 20
+              - 22
+              - 24
+          AmountSelect:
+            Player: 13
+            Max: 31
+
+      MyEco:
+        Rows: 6
+        Slots:
+          Main:
+            Currencies: 2
+          Currencies:
+            Add: 2
+            Reset: 6
+            Save: 8
+            List:
+              - 19
+              - 21
+              - 23
+              - 25
+              - 27
+              - 29
+              - 31
+              - 33
+              - 35
+          CurrencyEditor:
+            Denominations: 10
+            BasicInfo: 11
+            Format: 12
+            Type: 13
+            Note: 14
+          CurrencyTypes:
+            List:
+              - 19
+              - 21
+              - 23
+              - 25
+              - 27
+              - 29
+              - 31
+              - 33
+              - 35
+          Denominations:
+            Add: 2
+            List:
+              - 19
+              - 21
+              - 23
+              - 25
+              - 27
+              - 29
+              - 31
+              - 33
+              - 35
+
+      BalTop:
+        Rows: 3
+        Slots:
+          PreviousPage: 0
+          NextPage: 8
+          Entries:
+            - 9
+            - 10
+            - 11
+            - 12
+            - 13
+            - 14
+            - 15
+            - 16
+            - 17
+            - 18
+
+      Transactions:
+        Rows: 4
+        Slots:
+          PreviousPage: 0
+          NextPage: 8
+          Entries:
+            - 9
+            - 10
+            - 11
+            - 12
+            - 13
+            - 14
+            - 15
+            - 16
+            - 17
+            - 18
+
+      SharedAmountSelection:
+        Slots:
+          Escape: 0
+          ManualEntry: 2
+          AmountDisplay: 4
+          Reset: 6
+          Save: 8
+          Remove50: 9
+          Remove100: 11
+          Add100: 15
+          Add50: 17
+          Remove1: 27
+          Remove10: 29
+          Add10: 33
+          Add1: 35
+          RemoveHundredth: 45
+          RemoveTenth: 47
+          AddTenth: 51
+          AddHundredth: 53
+
+      SharedCurrencySelection:
+        Slots:
+          PreviousPage: 0
+          Escape: 4
+          NextPage: 8
+          Items:
+            - 9
+            - 10
+            - 11
+            - 12
+            - 13
+            - 14
+            - 15
+            - 16
+            - 17
+            - 18
+            - 19
+            - 20
+            - 21
+            - 22
+            - 23
+            - 24
+            - 25
+            - 26
+            - 27
+            - 28
+            - 29
+            - 30
+            - 31
+            - 32
+            - 33
+            - 34
+            - 35
+            - 36
+            - 37
+            - 38
+            - 39
+            - 40
+            - 41
+            - 42
+            - 43
+            - 44
+            - 45
+            - 46
+            - 47
+            - 48
+            - 49
+            - 50
+            - 51
+            - 52
+            - 53
+
+      SharedAccountSelection:
+        Slots:
+          Back: 0
+          PreviousPage: 0
+          Escape: 4
+          NextPage: 8
+          Items:
+            - 9
+            - 10
+            - 11
+            - 12
+            - 13
+            - 14
+            - 15
+            - 16
+            - 17
+            - 18
+            - 19
+            - 20
+            - 21
+            - 22
+            - 23
+            - 24
+            - 25
+            - 26
+            - 27
+            - 28
+            - 29
+            - 30
+            - 31
+            - 32
+            - 33
+            - 34
+            - 35
+            - 36
+            - 37
+            - 38
+            - 39
+            - 40
+            - 41
+            - 42
+            - 43
+            - 44
+            - 45
+            - 46
+            - 47
+            - 48
+            - 49
+            - 50
+            - 51
+            - 52
+            - 53
+
+      SharedMaterialSelection:
+        Slots:
+          PreviousPage: 0
+          Escape: 4
+          NextPage: 8
+          Items:
+            - 9
+            - 10
+            - 11
+            - 12
+            - 13
+            - 14
+            - 15
+            - 16
+            - 17
+            - 18
+            - 19
+            - 20
+            - 21
+            - 22
+            - 23
+            - 24
+            - 25
+            - 26
+            - 27
+            - 28
+            - 29
+            - 30
+            - 31
+            - 32
+            - 33
+            - 34
+            - 35
+            - 36
+            - 37
+            - 38
+            - 39
+            - 40
+            - 41
+            - 42
+            - 43
+            - 44
+            - 45
+            - 46
+            - 47
+            - 48
+            - 49
+            - 50
+            - 51
+            - 52
+            - 53
+
+      MyEcoFormatSelection:
+        Slots:
+          PreviousPage: 0
+          Escape: 1
+          Space: 2
+          FormatDisplay: 4
+          CustomText: 5
+          Reset: 6
+          Save: 7
+          NextPage: 8
+          Rules:
+            - 9
+            - 10
+            - 11
+            - 12
+            - 13
+            - 14
+            - 15
+            - 16
+            - 17
+            - 18
+            - 19
+            - 20
+            - 21
+            - 22
+            - 23
+            - 24
+            - 25
+            - 26
+            - 27
+            - 28
+            - 29
+            - 30
+            - 31
+            - 32
+            - 33
+            - 34
+            - 35
+            - 36
+            - 37
+            - 38
+            - 39
+            - 40
+            - 41
+            - 42
+            - 43
+            - 44
+            - 45
+            - 46
+            - 47
+            - 48
+            - 49
+            - 50
+            - 51
+            - 52
+            - 53
   
   #All configurations relating to update checking
   Update:

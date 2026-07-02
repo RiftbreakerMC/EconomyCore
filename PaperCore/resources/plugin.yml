@@ -3,7 +3,7 @@ name: TheNewEconomy
 version: 0.1.4.1
 description: The original feature-packed economy plugin for Minecraft.
 author: creatorfromhell
-api-version: 1.13
+api-version: 26.2
 
 #Plugin Data
 main: net.tnemc.paper.TNE

@@ -17,6 +17,7 @@ package net.tnemc.core.menu.page.shared;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import net.tnemc.core.config.GuiLayoutConfig;
 import net.tnemc.core.menu.handlers.StringSelectionHandler;
 import net.tnemc.menu.core.builder.IconBuilder;
 import net.tnemc.menu.core.callbacks.page.PageOpenCallback;
@@ -30,6 +31,7 @@ import net.tnemc.plugincore.core.io.message.MessageData;
 import net.tnemc.plugincore.core.io.message.MessageHandler;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -90,14 +92,14 @@ public class MaterialSelectionPageCallback {
                                                            .customName(MessageHandler.grab(new MessageData("Messages.Menu.Shared.PreviousPageDisplay"), id))
                                                            .lore(Collections.singletonList(MessageHandler.grab(new MessageData("Messages.Menu.Shared.PreviousPage"), id))))
                                            .withActions(new DataAction(materialPageID, prev), new SwitchPageAction(menuName, menuPage))
-                                           .withSlot(0)
+                                           .withSlot(GuiLayoutConfig.slot("SharedMaterialSelection", "PreviousPage", 0, menuRows))
                                            .build());
 
         callback.getPage().addIcon(new IconBuilder(PluginCore.server().stackBuilder().of("GREEN_WOOL", 1)
                                                            .customName(MessageHandler.grab(new MessageData("Messages.Menu.Shared.NextPageDisplay"), id))
                                                            .lore(Collections.singletonList(MessageHandler.grab(new MessageData("Messages.Menu.Shared.NextPage"), id))))
                                            .withActions(new DataAction(materialPageID, next), new SwitchPageAction(menuName, menuPage))
-                                           .withSlot(8)
+                                           .withSlot(GuiLayoutConfig.slot("SharedMaterialSelection", "NextPage", 8, menuRows))
                                            .build());
       }
 
@@ -105,11 +107,20 @@ public class MaterialSelectionPageCallback {
                                                          .customName(MessageHandler.grab(new MessageData("Messages.Menu.Shared.EscapeDisplay"), id))
                                                          .lore(Collections.singletonList(MessageHandler.grab(new MessageData("Messages.Menu.Shared.Escape"), id))))
                                          .withActions(new SwitchPageAction(returnMenu, returnPage))
-                                         .withSlot(4)
+                                         .withSlot(GuiLayoutConfig.slot("SharedMaterialSelection", "Escape", 4, menuRows))
                                          .build());
 
+      final List<Integer> slots = GuiLayoutConfig.slots("SharedMaterialSelection", "Items", 9, 10, 11, 12, 13, 14, 15, 16, 17,
+                                                        18, 19, 20, 21, 22, 23, 24, 25, 26,
+                                                        27, 28, 29, 30, 31, 32, 33, 34, 35,
+                                                        36, 37, 38, 39, 40, 41, 42, 43, 44,
+                                                        45, 46, 47, 48, 49, 50, 51, 52, 53);
+      int slot = 0;
       for(int i = start; i < start + items; i++) {
         if(MenuManager.instance().getHelper().materials().size() <= i) {
+          break;
+        }
+        if(slot >= slots.size()) {
           break;
         }
 
@@ -125,8 +136,9 @@ public class MaterialSelectionPageCallback {
                                                             selectionListener.accept(new StringSelectionHandler(click, material));
                                                           }
                                                         }), new SwitchPageAction(returnMenu, returnPage))
-                                           .withSlot(9 + (i - start))
+                                           .withSlot(slots.get(slot))
                                            .build());
+        slot++;
       }
     }
   }

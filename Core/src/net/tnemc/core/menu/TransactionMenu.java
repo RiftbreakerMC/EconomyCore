@@ -20,6 +20,7 @@ package net.tnemc.core.menu;
 import net.kyori.adventure.text.Component;
 import net.tnemc.core.TNECore;
 import net.tnemc.core.account.Account;
+import net.tnemc.core.config.GuiLayoutConfig;
 import net.tnemc.core.transaction.Receipt;
 import net.tnemc.core.transaction.history.SortedHistory;
 import net.tnemc.menu.core.Menu;
@@ -36,6 +37,7 @@ import net.tnemc.plugincore.core.io.message.MessageHandler;
 
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -56,7 +58,7 @@ public class TransactionMenu extends Menu {
 
     this.name = "transaction_menu";
     this.title = "Transactions";
-    this.rows = 4;
+    this.rows = GuiLayoutConfig.rows("Transactions", 4);
 
     /*
      * Main Page
@@ -94,18 +96,19 @@ public class TransactionMenu extends Menu {
                                                            .customName(MessageHandler.grab(new MessageData("Messages.Menu.Shared.PreviousPageDisplay"), id))
                                                            .lore(Collections.singletonList(MessageHandler.grab(new MessageData("Messages.Menu.Shared.PreviousPage"), id))))
                                            .withActions(new DataAction(TRANSACTION_PAGE_ID, prev), new SwitchPageAction(this.name, 1))
-                                           .withSlot(0)
+                                           .withSlot(GuiLayoutConfig.slot("Transactions", "PreviousPage", 0, this.rows))
                                            .build());
 
         callback.getPage().addIcon(new IconBuilder(PluginCore.server().stackBuilder().of("GREEN_WOOL", 1)
                                                            .customName(MessageHandler.grab(new MessageData("Messages.Menu.Shared.NextPageDisplay"), id))
                                                            .lore(Collections.singletonList(MessageHandler.grab(new MessageData("Messages.Menu.Shared.NextPage"), id))))
                                            .withActions(new DataAction(TRANSACTION_PAGE_ID, next), new SwitchPageAction(this.name, 1))
-                                           .withSlot(8)
+                                           .withSlot(GuiLayoutConfig.slot("Transactions", "NextPage", 8, this.rows))
                                            .build());
       }
 
-      int slot = 9;
+      final List<Integer> slots = GuiLayoutConfig.slots("Transactions", "Entries", 9, 10, 11, 12, 13, 14, 15, 16, 17, 18);
+      int slot = 0;
       for(int i = 1; i <= 2; i++) {
 
         final int adjustedPage = i + (page - 1);
@@ -119,10 +122,12 @@ public class TransactionMenu extends Menu {
           if(receipt.isEmpty()) {
             continue;
           }
-          //callback.getPage().addIcon(buildTransactionIcon(slot, receipt.get()));
+          if(slot >= slots.size()) {
+            break;
+          }
+          //callback.getPage().addIcon(buildTransactionIcon(slots.get(slot), receipt.get().getId()));
+          slot++;
         }
-
-        slot += 2;
       }
     }
   }

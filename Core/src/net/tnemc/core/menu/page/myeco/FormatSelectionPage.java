@@ -19,6 +19,7 @@ package net.tnemc.core.menu.page.myeco;
  */
 
 import net.kyori.adventure.text.Component;
+import net.tnemc.core.config.GuiLayoutConfig;
 import net.tnemc.core.currency.format.CurrencyFormatter;
 import net.tnemc.core.currency.format.FormatRule;
 import net.tnemc.core.menu.handlers.StringSelectionHandler;
@@ -36,6 +37,7 @@ import net.tnemc.plugincore.core.io.message.MessageHandler;
 
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -94,14 +96,14 @@ public class FormatSelectionPage {
                                                            .customName(MessageHandler.grab(new MessageData("Messages.Menu.Shared.PreviousPageDisplay"), id))
                                                            .lore(Collections.singletonList(MessageHandler.grab(new MessageData("Messages.Menu.Shared.PreviousPage"), id))))
                                            .withActions(new DataAction(formatPageID, prev), new SwitchPageAction(menuName, menuPage))
-                                           .withSlot(0)
+                                           .withSlot(GuiLayoutConfig.slot("MyEcoFormatSelection", "PreviousPage", 0, menuRows))
                                            .build());
 
         callback.getPage().addIcon(new IconBuilder(PluginCore.server().stackBuilder().of("GREEN_WOOL", 1)
                                                            .customName(MessageHandler.grab(new MessageData("Messages.Menu.Shared.NextPageDisplay"), id))
                                                            .lore(Collections.singletonList(MessageHandler.grab(new MessageData("Messages.Menu.Shared.NextPage"), id))))
                                            .withActions(new DataAction(formatPageID, next), new SwitchPageAction(menuName, menuPage))
-                                           .withSlot(8)
+                                           .withSlot(GuiLayoutConfig.slot("MyEcoFormatSelection", "NextPage", 8, menuRows))
                                            .build());
       }
 
@@ -110,7 +112,7 @@ public class FormatSelectionPage {
                                                          .lore(Collections.singletonList(MessageHandler.grab(new MessageData("Messages.Menu.MyEco.Format.Add"), id))))
                                          .withActions(new SwitchPageAction(menuName, menuPage))
                                          .withClick((click)->formatAddClick(click, " "))
-                                         .withSlot(2)
+                                         .withSlot(GuiLayoutConfig.slot("MyEcoFormatSelection", "Space", 2, menuRows))
                                          .build());
 
       callback.getPage().addIcon(new IconBuilder(PluginCore.server().stackBuilder().of("ARROW", 1)
@@ -130,7 +132,7 @@ public class FormatSelectionPage {
 
                                                       }), new RunnableAction((run)->run.player().message("Enter your own text to add to the format:")),
                                                       new SwitchPageAction(menuName, menuPage))
-                                         .withSlot(5)
+                                         .withSlot(GuiLayoutConfig.slot("MyEcoFormatSelection", "CustomText", 5, menuRows))
                                          .build());
 
       callback.getPage().addIcon(new IconBuilder(PluginCore.server().stackBuilder().of("BLACK_WOOL", 1)
@@ -138,7 +140,7 @@ public class FormatSelectionPage {
                                                          .lore(Collections.singletonList(MessageHandler.grab(new MessageData("Messages.Menu.MyEco.Format.Reset"), id))))
                                          .withClick((click)->click.player().viewer().ifPresent(menuViewer->menuViewer.addData(formatID, "")))
                                          .withActions(new SwitchPageAction(menuName, menuPage))
-                                         .withSlot(6)
+                                         .withSlot(GuiLayoutConfig.slot("MyEcoFormatSelection", "Reset", 6, menuRows))
                                          .build());
 
       //TODO: Fix display
@@ -149,14 +151,14 @@ public class FormatSelectionPage {
                                                          .customName(display)
                                                          .lore(Collections.singletonList(MessageHandler.grab(new MessageData("Messages.Menu.MyEco.Format.Format"), id))))
                                          .withActions(new SwitchPageAction(menuName, menuPage))
-                                         .withSlot(4)
+                                         .withSlot(GuiLayoutConfig.slot("MyEcoFormatSelection", "FormatDisplay", 4, menuRows))
                                          .build());
 
       callback.getPage().addIcon(new IconBuilder(PluginCore.server().stackBuilder().of("BARRIER", 1)
                                                          .customName(MessageHandler.grab(new MessageData("Messages.Menu.Shared.EscapeDisplay"), id))
                                                          .lore(Collections.singletonList(MessageHandler.grab(new MessageData("Messages.Menu.Shared.Escape"), id))))
                                          .withActions(new SwitchPageAction(returnMenu, returnPage))
-                                         .withSlot(1)
+                                         .withSlot(GuiLayoutConfig.slot("MyEcoFormatSelection", "Escape", 1, menuRows))
                                          .build());
 
       callback.getPage().addIcon(new IconBuilder(PluginCore.server().stackBuilder().of("ARROW", 1)
@@ -169,7 +171,7 @@ public class FormatSelectionPage {
                                              selectionListener.accept(new StringSelectionHandler(click, (String)viewer.get().dataOrDefault(formatID, "<symbol><major.amount><decimal><minor.amount>")));
                                            }
                                          }), new SwitchPageAction(returnMenu, returnPage))
-                                         .withSlot(7)
+                                         .withSlot(GuiLayoutConfig.slot("MyEcoFormatSelection", "Save", 7, menuRows))
                                          .build());
 
 
@@ -179,7 +181,12 @@ public class FormatSelectionPage {
       lore.add(MessageHandler.grab(new MessageData("Messages.Menu.MyEco.Format.Add"), id));
       lore.add(Component.text("Placeholder"));
 
-      int slot = 9;
+      final List<Integer> slots = GuiLayoutConfig.slots("MyEcoFormatSelection", "Rules", 9, 10, 11, 12, 13, 14, 15, 16, 17,
+                                                        18, 19, 20, 21, 22, 23, 24, 25, 26,
+                                                        27, 28, 29, 30, 31, 32, 33, 34, 35,
+                                                        36, 37, 38, 39, 40, 41, 42, 43, 44,
+                                                        45, 46, 47, 48, 49, 50, 51, 52, 53);
+      int slot = 0;
       for(int i = start; i < start + items; i++) {
         if(stringSet.length <= i) {
           break;
@@ -190,6 +197,9 @@ public class FormatSelectionPage {
         if(!rule.includeInMenu()) {
           continue;
         }
+        if(slot >= slots.size()) {
+          break;
+        }
 
         //reset lore to include description for each rule.
         lore.set(1, Component.text(rule.description()));
@@ -199,7 +209,7 @@ public class FormatSelectionPage {
                                                            .lore(lore))
                                            .withActions(new SwitchPageAction(menuName, menuPage))
                                            .withClick((click)->formatAddClick(click, rule.name()))
-                                           .withSlot(slot)
+                                           .withSlot(slots.get(slot))
                                            .build());
 
         slot++;
