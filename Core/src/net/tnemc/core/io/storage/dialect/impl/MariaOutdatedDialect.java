@@ -138,7 +138,7 @@ public class MariaOutdatedDialect implements TNEDialect {
 
     this.saveReceipt = "INSERT INTO " + prefix + "receipts (uid, performed, receipt_type, receipt_source, " +
                        "receipt_source_type, archive, voided) " +
-                       "VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE archive = ?, voided = ?";
+                       "VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE archive = ?, voided = ?";
 
     this.loadReceiptHolding = "SELECT participant AS participant, ending, server, region, " +
                               "currency AS currency, holdings_type, holdings FROM " +
@@ -288,13 +288,13 @@ public class MariaOutdatedDialect implements TNEDialect {
     final String players = prefix + "players_accounts";
 
     return "DELETE FROM " + acc +
-           "WHERE uid IN (" +
+           " WHERE uid IN (" +
            "  SELECT uid FROM " + players +
            "  WHERE EXISTS (" +
            "    SELECT *" +
            "    FROM " + acc +
            "    WHERE " + acc + ".uid = " + players + ".uid" +
-           "    AND DATEDIFF(DAY, " + players + ".last_online, NOW()) >= " + days +
+           "    AND DATEDIFF(NOW(), " + players + ".last_online) >= " + days +
            "  )" +
            ");";
   }
@@ -302,7 +302,7 @@ public class MariaOutdatedDialect implements TNEDialect {
   @Override
   public @Language("SQL") String receiptPurge(final int days) {
 
-    return "DELETE FROM " + prefix + "receipts WHERE archived = false" +
+    return "DELETE FROM " + prefix + "receipts WHERE archive = false " +
            "AND DATEDIFF(CURDATE(), performed) >= " + days;
   }
 
