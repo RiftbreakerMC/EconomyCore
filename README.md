@@ -1,8 +1,3 @@
-# 💬 Support / Community Discord
-**Need help, have questions, or want to follow development? Join the Discord:**
-➡️ **https://discord.gg/cNEDdfaCpa**
-
-
 > ⚠️ **Fork Notice – Community Continuation**
 >
 > This repository is **not the official The New Economy (TNE) project**.
@@ -13,17 +8,12 @@
 > Our goal with this fork is to **take over active support**, accept fixes and improvements, and ensure long-term usability of TNE for existing and future servers.
 >
 > All original licensing (AGPLv3) and attributions are preserved.
->
-> Join our [Discord](https://discord.gg/cNEDdfaCpa) for this forks support.
 
 
 # The New Economy
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/246101510dca4eb9a729ef178dae682c)](https://app.codacy.com/gh/TheNewEconomy/EconomyCore/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![Build Status](https://ci.codemc.io/job/creatorfromhell/job/TNE/badge/icon)](https://ci.codemc.io/job/creatorfromhell/job/TNE/)
-  <a href="https://discord.gg/cNEDdfaCpa">
-    <img src="https://img.shields.io/badge/Discord-Join%20Support%20Server-5865F2?logo=discord&logoColor=white" alt="Join Discord" />
-  </a>
 
 The New Economy, TNE, is the ultimate economy plugin for your Minecraft server, no matter what
 platform you're on. While
@@ -132,7 +122,7 @@ our [contributing guidelines](.contributing/contributing.md) before submitting a
 Please make sure to:
 
 - Sign the Contributor License Agreement (CLA) if this is your first contribution when it appears in
-  the Pull Request.
+the Pull Request.
 - Follow the coding standards and branch naming conventions outlined in the guidelines.
 - Use the required IntelliJ plugin **Final Obsession** for code quality and consistency.
 
@@ -143,5 +133,3 @@ Thank you for your contributions!
 We have some organizations that provide open-source licenses to help support this project.
 
 <a href="https://www.ej-technologies.com/products/jprofiler/overview.html"><img align="left" width="200" height="200" src="jprofiler.svg"></a>
-
-
