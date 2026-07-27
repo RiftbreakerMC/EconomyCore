@@ -1,3 +1,15 @@
+> ⚠️ **Fork Notice – Community Continuation**
+>
+> This repository is **not the official The New Economy (TNE) project**.
+>
+> The original TNE project was officially **retired on January 1st, 2026**.  
+> This repository is a **community-maintained fork** created to continue development, maintenance, and support for TNE moving forward.
+>
+> Our goal with this fork is to **take over active support**, accept fixes and improvements, and ensure long-term usability of TNE for existing and future servers.
+>
+> All original licensing (AGPLv3) and attributions are preserved.
+
+
 # The New Economy
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/246101510dca4eb9a729ef178dae682c)](https://app.codacy.com/gh/TheNewEconomy/EconomyCore/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
@@ -35,6 +47,15 @@ Use TNE on the platform you want!
 - Use both? We support cross-server balances on both. That's right. You can send money from your
   Spigot server to your
   Sponge Server!
+
+## Proxy Bridge Status
+
+Velocity and Bungee bridge plugins are no longer part of the supported build.
+As of `0.1.4.3`, cross-server syncing is Redis-only and does not require a proxy plugin.
+
+If you are trying to use the historical `TNE-VelocityCore-0.1.4.2.jar`, do not place it in a
+Velocity `plugins/` directory. That legacy artifact does not contain the generated
+`velocity-plugin.json` descriptor required by Velocity and will be rejected during startup.
 
 ## Features
 
@@ -87,6 +108,8 @@ TNE has some minimum requirements that should be followed.
 - MySQL 8.0+ (if using MySQL for storage)
 - MariaDB 10.7.0+
 - Java 17+
+- Redis plus a shared `Data.Sync.Security.Token` on every backend server if you want cross-server
+  syncing
 
 ## Contributing
 
@@ -99,7 +122,7 @@ our [contributing guidelines](.contributing/contributing.md) before submitting a
 Please make sure to:
 
 - Sign the Contributor License Agreement (CLA) if this is your first contribution when it appears in
-  the Pull Request.
+the Pull Request.
 - Follow the coding standards and branch naming conventions outlined in the guidelines.
 - Use the required IntelliJ plugin **Final Obsession** for code quality and consistency.
 
@@ -110,6 +133,3 @@ Thank you for your contributions!
 We have some organizations that provide open-source licenses to help support this project.
 
 <a href="https://www.ej-technologies.com/products/jprofiler/overview.html"><img align="left" width="200" height="200" src="jprofiler.svg"></a>
-
-
-
