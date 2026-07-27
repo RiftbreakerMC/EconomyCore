@@ -22,6 +22,7 @@ import net.kyori.adventure.text.Component;
 import net.tnemc.core.TNECore;
 import net.tnemc.core.account.Account;
 import net.tnemc.core.account.PlayerAccount;
+import net.tnemc.core.config.GuiLayoutConfig;
 import net.tnemc.core.menu.icons.shared.PreviousPageIcon;
 import net.tnemc.item.AbstractItemStack;
 import net.tnemc.item.providers.SkullProfile;
@@ -36,6 +37,7 @@ import net.tnemc.plugincore.core.io.message.MessageData;
 import net.tnemc.plugincore.core.io.message.MessageHandler;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -77,7 +79,7 @@ public class AccountSelectionPage {
 
       final UUID id = viewer.get().uuid();
 
-      callback.getPage().addIcon(new PreviousPageIcon(id, 0, this.menuName, 1, ActionType.ANY));
+      callback.getPage().addIcon(new PreviousPageIcon(id, GuiLayoutConfig.slot("SharedAccountSelection", "Back", 0, menuRows), this.menuName, 1, ActionType.ANY));
 
       final int page = (Integer)viewer.get().dataOrDefault(accountPageID, 1);
       final int items = (menuRows - 1) * 9;
@@ -94,14 +96,14 @@ public class AccountSelectionPage {
                                                            .customName(MessageHandler.grab(new MessageData("Messages.Menu.Shared.PreviousPageDisplay"), id))
                                                            .lore(Collections.singletonList(MessageHandler.grab(new MessageData("Messages.Menu.Shared.PreviousPage"), id))))
                                            .withActions(new DataAction(accountPageID, prev), new SwitchPageAction(menuName, menuPage))
-                                           .withSlot(0)
+                                           .withSlot(GuiLayoutConfig.slot("SharedAccountSelection", "PreviousPage", 0, menuRows))
                                            .build());
 
         callback.getPage().addIcon(new IconBuilder(PluginCore.server().stackBuilder().of("GREEN_WOOL", 1)
                                                            .customName(MessageHandler.grab(new MessageData("Messages.Menu.Shared.NextPageDisplay"), id))
                                                            .lore(Collections.singletonList(MessageHandler.grab(new MessageData("Messages.Menu.Shared.NextPage"), id))))
                                            .withActions(new DataAction(accountPageID, next), new SwitchPageAction(menuName, menuPage))
-                                           .withSlot(8)
+                                           .withSlot(GuiLayoutConfig.slot("SharedAccountSelection", "NextPage", 8, menuRows))
                                            .build());
       }
 
@@ -109,9 +111,15 @@ public class AccountSelectionPage {
                                                          .customName(MessageHandler.grab(new MessageData("Messages.Menu.Shared.EscapeDisplay"), id))
                                                          .lore(Collections.singletonList(MessageHandler.grab(new MessageData("Messages.Menu.Shared.Escape"), id))))
                                          .withActions(new SwitchPageAction(returnMenu, returnPage))
-                                         .withSlot(4)
+                                         .withSlot(GuiLayoutConfig.slot("SharedAccountSelection", "Escape", 4, menuRows))
                                          .build());
 
+      final List<Integer> slots = GuiLayoutConfig.slots("SharedAccountSelection", "Items", 9, 10, 11, 12, 13, 14, 15, 16, 17,
+                                                        18, 19, 20, 21, 22, 23, 24, 25, 26,
+                                                        27, 28, 29, 30, 31, 32, 33, 34, 35,
+                                                        36, 37, 38, 39, 40, 41, 42, 43, 44,
+                                                        45, 46, 47, 48, 49, 50, 51, 52, 53);
+      int slot = 0;
       int i = 0;
       for(final Map.Entry<String, Account> entry : TNECore.eco().account().getAccounts().entrySet()) {
 
@@ -122,6 +130,7 @@ public class AccountSelectionPage {
           continue;
         }
         if(i >= (start + items)) break;
+        if(slot >= slots.size()) break;
 
         SkullProfile profile = null;
         try {
@@ -149,10 +158,11 @@ public class AccountSelectionPage {
                                            .withActions(new DataAction(accountDataID + "_ID", entry.getKey()),
                                                         new DataAction(accountDataID + "_NAME", entry.getValue().getName()),
                                                         new SwitchPageAction(returnMenu, returnPage))
-                                           .withSlot(9 + (i - start))
+                                           .withSlot(slots.get(slot))
                                            .build());
 
         i++;
+        slot++;
       }
     }
   }

@@ -19,6 +19,7 @@ package net.tnemc.core.menu.page.mybal;
  */
 
 import net.kyori.adventure.text.Component;
+import net.tnemc.core.config.GuiLayoutConfig;
 import net.tnemc.core.menu.MyBalMenu;
 import net.tnemc.core.menu.handlers.AmountSelectionHandler;
 import net.tnemc.core.menu.page.shared.AmountSelectionPage;
@@ -66,7 +67,7 @@ public class MyBalAmountSelectionPage extends AmountSelectionPage {
                                                          .lore(Collections.singletonList(MessageHandler.grab(new MessageData("Messages.Menu.MyBal.AmountSelect.Max"), viewerID))))
                                          .withActions(new SwitchPageAction(menuName, menuPage))
                                          .withClick((click)->balAddClick(click, ((BigDecimal)viewer.get().dataOrDefault(MyBalMenu.ACTION_MAX_HOLDINGS, BigDecimal.ZERO))))
-                                         .withSlot(31)
+                                         .withSlot(GuiLayoutConfig.slot("MyBal", "AmountSelect.Max", 31))
                                          .build());
 
       final Optional<Object> name = viewer.get().findData(MyBalMenu.ACTION_ACCOUNT_ID + "_NAME");
@@ -90,7 +91,7 @@ public class MyBalAmountSelectionPage extends AmountSelectionPage {
                                                            .lore(Collections.singletonList(MessageHandler.grab(new MessageData("Messages.Menu.MyBal.AmountSelect.Player"), viewerID)))
                                                            .profile(profile))
                                            .withActions(new SwitchPageAction(menuName, menuPage))
-                                           .withSlot(13)
+                                           .withSlot(GuiLayoutConfig.slot("MyBal", "AmountSelect.Player", 13))
                                            .build());
       }
     }

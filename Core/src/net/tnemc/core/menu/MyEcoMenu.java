@@ -20,6 +20,7 @@ package net.tnemc.core.menu;
 
 import net.kyori.adventure.text.Component;
 import net.tnemc.core.TNECore;
+import net.tnemc.core.config.GuiLayoutConfig;
 import net.tnemc.core.currency.Currency;
 import net.tnemc.core.currency.CurrencyType;
 import net.tnemc.core.currency.Denomination;
@@ -60,6 +61,7 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
@@ -112,7 +114,7 @@ public class MyEcoMenu extends Menu {
 
     this.name = "my_eco";
     this.title = "My Eco";
-    this.rows = 6;
+    this.rows = GuiLayoutConfig.rows("MyEco", 6);
 
     /*
      * Main Page
@@ -121,7 +123,7 @@ public class MyEcoMenu extends Menu {
     main.setOpen((open)->{
 
       final UUID id = open.getPlayer().identifier();
-      open.getPage().addIcon(new SwitchPageIcon(2, PluginCore.server().stackBuilder().of("GOLD_INGOT", 1)
+      open.getPage().addIcon(new SwitchPageIcon(GuiLayoutConfig.slot("MyEco", "Main.Currencies", 2, this.rows), PluginCore.server().stackBuilder().of("GOLD_INGOT", 1)
               .customName(MessageHandler.grab(new MessageData("Messages.Menu.MyEco.Main.Currencies"), id)), this.name, CURRENCIES_PAGE, ActionType.ANY));
     });
     addPage(main);
@@ -188,7 +190,7 @@ public class MyEcoMenu extends Menu {
 
                                          } catch(final NoValidCurrenciesException ignore) { }
                                        }), new PageSwitchWithClose(this.name, -1))
-                                       .withSlot(8)
+                                       .withSlot(GuiLayoutConfig.slot("MyEco", "Currencies.Save", 8, this.rows))
                                        .build());
 
         open.getPage().addIcon(new IconBuilder(PluginCore.server().stackBuilder().of("BLACK_WOOL", 1)
@@ -206,11 +208,11 @@ public class MyEcoMenu extends Menu {
                                            TNECore.eco().currency().getLoader().loadCurrencies(directory);
                                          } catch(final NoValidCurrenciesException ignore) { }
                                        }), new PageSwitchWithClose(this.name, -1))
-                                       .withSlot(6)
+                                       .withSlot(GuiLayoutConfig.slot("MyEco", "Currencies.Reset", 6, this.rows))
                                        .build());
 
         //add currency
-        final SwitchPageIcon addCurrencyIcon = new SwitchPageIcon(2, PluginCore.server().stackBuilder().of("ARROW", 1)
+        final SwitchPageIcon addCurrencyIcon = new SwitchPageIcon(GuiLayoutConfig.slot("MyEco", "Currencies.Add", 2, this.rows), PluginCore.server().stackBuilder().of("ARROW", 1)
                 .customName(MessageHandler.grab(new MessageData("Messages.Menu.MyEco.Currency.AddCurrencyDisplay"), id))
                 .lore(Collections.singletonList(MessageHandler.grab(new MessageData("Messages.Menu.MyEco.Currency.AddCurrencyLore"), id))), this.name, CURRENCY_EDIT_PAGE, ActionType.ANY);
 
@@ -234,12 +236,16 @@ public class MyEcoMenu extends Menu {
         addCurrencyIcon.addAction(new RunnableAction((run)->run.player().message("Enter an identifier for the currency:")));
         currency.addIcon(addCurrencyIcon);
 
-        int i = 19;
+        final List<Integer> currencySlots = GuiLayoutConfig.slots("MyEco", "Currencies.List", 19, 21, 23, 25, 27, 29, 31, 33, 35);
+        int i = 0;
         for(final Currency curObj : TNECore.eco().currency().currencies()) {
 
-          currency.addIcon(new CurrencyIcon(id, i, curObj));
+          if(i >= currencySlots.size()) {
+            break;
+          }
 
-          i += 2;
+          currency.addIcon(new CurrencyIcon(id, currencySlots.get(i), curObj));
+          i++;
         }
       }
     });
@@ -259,19 +265,19 @@ public class MyEcoMenu extends Menu {
         currencyEditor.addIcon(new PreviousPageIcon(id, 0, this.name, CURRENCIES_PAGE, ActionType.ANY));
 
         //denominations
-        currencyEditor.addIcon(new SwitchPageIcon(10, PluginCore.server().stackBuilder().of("GOLD_INGOT", 1)
+        currencyEditor.addIcon(new SwitchPageIcon(GuiLayoutConfig.slot("MyEco", "CurrencyEditor.Denominations", 10, this.rows), PluginCore.server().stackBuilder().of("GOLD_INGOT", 1)
                 .customName(MessageHandler.grab(new MessageData("Messages.Menu.MyEco.Currency.EditDenominationsDisplay"), id)), this.name, DENOMINATIONS_PAGE, ActionType.ANY));
 
         //CURRENCY_INFO_EDIT_PAGE
-        currencyEditor.addIcon(new SwitchPageIcon(11, PluginCore.server().stackBuilder().of("GOLD_INGOT", 1)
+        currencyEditor.addIcon(new SwitchPageIcon(GuiLayoutConfig.slot("MyEco", "CurrencyEditor.BasicInfo", 11, this.rows), PluginCore.server().stackBuilder().of("GOLD_INGOT", 1)
                 .customName(MessageHandler.grab(new MessageData("Messages.Menu.MyEco.Currency.BasicCurrencyInfoDisplay"), id)), this.name, CURRENCY_INFO_EDIT_PAGE, ActionType.ANY));
 
         //CURRENCY_FORMAT_EDIT_PAGE
-        currencyEditor.addIcon(new SwitchPageIcon(12, PluginCore.server().stackBuilder().of("GOLD_INGOT", 1)
+        currencyEditor.addIcon(new SwitchPageIcon(GuiLayoutConfig.slot("MyEco", "CurrencyEditor.Format", 12, this.rows), PluginCore.server().stackBuilder().of("GOLD_INGOT", 1)
                 .customName(MessageHandler.grab(new MessageData("Messages.Menu.MyEco.Currency.CurrencyFormatOptionsDisplay"), id)), this.name, CURRENCY_FORMAT_EDIT_PAGE, ActionType.ANY));
 
         //CURRENCY_NOTE_EDIT_PAGE
-        currencyEditor.addIcon(new SwitchPageIcon(14, PluginCore.server().stackBuilder().of("GOLD_INGOT", 1)
+        currencyEditor.addIcon(new SwitchPageIcon(GuiLayoutConfig.slot("MyEco", "CurrencyEditor.Note", 14, this.rows), PluginCore.server().stackBuilder().of("GOLD_INGOT", 1)
                 .customName(MessageHandler.grab(new MessageData("Messages.Menu.MyEco.Currency.CurrencyNoteOptionsDisplay"), id)), this.name, CURRENCY_NOTE_EDIT_PAGE, ActionType.ANY));
 
         final Optional<Object> currencyOpt = open.getPlayer().viewer().get().findData(ACTIVE_CURRENCY);
@@ -283,7 +289,7 @@ public class MyEcoMenu extends Menu {
           typeMessage.addReplacement("$type", currencyObject.getType());
 
           //CURRENCY_TYPE_EDIT_PAGE
-          currencyEditor.addIcon(new SwitchPageIcon(13, PluginCore.server().stackBuilder().of("GOLD_INGOT", 1)
+          currencyEditor.addIcon(new SwitchPageIcon(GuiLayoutConfig.slot("MyEco", "CurrencyEditor.Type", 13, this.rows), PluginCore.server().stackBuilder().of("GOLD_INGOT", 1)
                   .customName(MessageHandler.grab(typeMessage, id))
                   .lore(Collections.singletonList(MessageHandler.grab(new MessageData("Messages.Menu.MyEco.Currency.SetCurrencyTypeLore"), id))), this.name, CURRENCY_TYPE_EDIT_PAGE, ActionType.ANY));
         }
@@ -394,10 +400,15 @@ public class MyEcoMenu extends Menu {
       }
     });
 
-    int i = 19;
+    final List<Integer> typeSlots = GuiLayoutConfig.slots("MyEco", "CurrencyTypes.List", 19, 21, 23, 25, 27, 29, 31, 33, 35);
+    int i = 0;
     for(final CurrencyType type : TNECore.eco().currency().getTypes().values()) {
 
-      final SwitchPageIcon switchIcon = new SwitchPageIcon(i, PluginCore.server().stackBuilder().of("PAPER", 1)
+      if(i >= typeSlots.size()) {
+        break;
+      }
+
+      final SwitchPageIcon switchIcon = new SwitchPageIcon(typeSlots.get(i), PluginCore.server().stackBuilder().of("PAPER", 1)
               .customName(Component.text("Type: " + type.name()))
               .lore(Collections.singletonList(MessageHandler.grab(new MessageData("Messages.Menu.MyEco.Currency.SetCurrencyTypeLore"), UUID.randomUUID()))), this.name, CURRENCY_EDIT_PAGE, ActionType.ANY, false);
       switchIcon.addAction(new RunnableAction((click)->{
@@ -426,7 +437,7 @@ public class MyEcoMenu extends Menu {
       }));
       switchIcon.addActions();
       currencyTypeEditPage.addIcon(switchIcon);
-      i += 2;
+      i++;
     }
 
     addPage(currencyTypeEditPage);
@@ -1112,7 +1123,7 @@ public class MyEcoMenu extends Menu {
       if(currencyOpt.isPresent()) {
 
         //add denomination
-        final SwitchPageIcon addDenominationIcon = new SwitchPageIcon(2, PluginCore.server().stackBuilder().of("ARROW", 1)
+        final SwitchPageIcon addDenominationIcon = new SwitchPageIcon(GuiLayoutConfig.slot("MyEco", "Denominations.Add", 2, this.rows), PluginCore.server().stackBuilder().of("ARROW", 1)
                 .customName(MessageHandler.grab(new MessageData("Messages.Menu.MyEco.Currency.AddDenominationDisplay"), id))
                 .lore(Collections.singletonList(MessageHandler.grab(new MessageData("Messages.Menu.MyEco.Currency.AddDenominationLore"), id))), this.name, DENOMINATIONS_PAGE, ActionType.ANY);
         addDenominationIcon.addAction(new ChatAction((message)->{
@@ -1141,12 +1152,16 @@ public class MyEcoMenu extends Menu {
         callback.getPage().addIcon(addDenominationIcon);
 
         final Currency currency = (Currency)currencyOpt.get();
-        int i = 19;
+        final List<Integer> denominationSlots = GuiLayoutConfig.slots("MyEco", "Denominations.List", 19, 21, 23, 25, 27, 29, 31, 33, 35);
+        int i = 0;
         for(final Denomination denomObj : currency.getDenominations().values()) {
 
-          callback.getPage().addIcon(new DenominationIcon(id, i, denomObj));
+          if(i >= denominationSlots.size()) {
+            break;
+          }
 
-          i += 2;
+          callback.getPage().addIcon(new DenominationIcon(id, denominationSlots.get(i), denomObj));
+          i++;
         }
       }
     }

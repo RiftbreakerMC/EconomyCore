@@ -3,7 +3,7 @@ version: 0.1.4.0
 description: The original feature-packed economy plugin for Minecraft.
 author: creatorfromhell
 main: net.tnemc.folia.TNE
-api-version: '1.19'
+api-version: '26.1.2'
 
 #Has to be included for folia support
 folia-supported: true

@@ -26,6 +26,7 @@ import net.tnemc.core.account.PlayerAccount;
 import net.tnemc.core.account.holdings.HoldingsEntry;
 import net.tnemc.core.account.holdings.modify.HoldingsModifier;
 import net.tnemc.core.actions.source.PlayerSource;
+import net.tnemc.core.config.GuiLayoutConfig;
 import net.tnemc.core.config.MainConfig;
 import net.tnemc.core.currency.Currency;
 import net.tnemc.core.currency.Note;
@@ -63,6 +64,7 @@ import java.math.RoundingMode;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -94,7 +96,7 @@ public class MyBalMenu extends Menu {
 
     this.name = "my_bal";
     this.title = "My Bal";
-    this.rows = 6;
+    this.rows = GuiLayoutConfig.rows("MyBal", 6);
 
     /*
      * Main Page
@@ -166,12 +168,16 @@ public class MyBalMenu extends Menu {
     final Optional<Account> account = TNECore.eco().account().findAccount(callback.getPlayer().identifier());
 
     if(account.isPresent()) {
-      int i = 10;
+      final List<Integer> slots = GuiLayoutConfig.slots("MyBal", "Main.Currencies", 10, 12, 14, 16, 18, 20, 22, 24);
+      int i = 0;
       for(final Currency curObj : TNECore.eco().currency().currencies()) {
 
-        callback.getPage().addIcon(buildBalanceIcon(i, curObj, account.get()));
+        if(i >= slots.size()) {
+          break;
+        }
 
-        i += 2;
+        callback.getPage().addIcon(buildBalanceIcon(slots.get(i), curObj, account.get()));
+        i++;
       }
     }
   }
@@ -200,7 +206,7 @@ public class MyBalMenu extends Menu {
               callback.getPage().addIcon(new IconBuilder(PluginCore.server().stackBuilder().of("PAPER", 1)
                                                                  .customName(MessageHandler.grab(new MessageData("Messages.Menu.MyBal.Actions.ConvertDisplay"), id))
                                                                  .lore(Collections.singletonList(MessageHandler.grab(new MessageData("Messages.Menu.MyBal.Actions.Convert"), id))))
-                                                 .withSlot(10)
+                                                 .withSlot(GuiLayoutConfig.slot("MyBal", "Actions.Convert", 10, this.rows))
                                                  .withActions(new SwitchPageAction(this.name, BALANCE_ACTION_CONVERT_CURRENCY_PAGE))
                                                  .build());
             }
@@ -211,7 +217,7 @@ public class MyBalMenu extends Menu {
                 callback.getPage().addIcon(new IconBuilder(PluginCore.server().stackBuilder().of("PAPER", 1)
                                                                    .customName(MessageHandler.grab(new MessageData("Messages.Menu.MyBal.Actions.DepositDisplay"), id))
                                                                    .lore(Collections.singletonList(MessageHandler.grab(new MessageData("Messages.Menu.MyBal.Actions.Deposit"), id))))
-                                                   .withSlot(12)
+                                                   .withSlot(GuiLayoutConfig.slot("MyBal", "Actions.Deposit", 12, this.rows))
                                                    .withActions(new SwitchPageAction(this.name, BALANCE_ACTION_DEPOSIT_AMOUNT_PAGE))
                                                    .build());
               }
@@ -220,7 +226,7 @@ public class MyBalMenu extends Menu {
                 callback.getPage().addIcon(new IconBuilder(PluginCore.server().stackBuilder().of("PAPER", 1)
                                                                    .customName(MessageHandler.grab(new MessageData("Messages.Menu.MyBal.Actions.WithdrawDisplay"), id))
                                                                    .lore(Collections.singletonList(MessageHandler.grab(new MessageData("Messages.Menu.MyBal.Actions.Withdraw"), id))))
-                                                   .withSlot(14)
+                                                   .withSlot(GuiLayoutConfig.slot("MyBal", "Actions.Withdraw", 14, this.rows))
                                                    .withActions(new SwitchPageAction(this.name, BALANCE_ACTION_WITHDRAW_AMOUNT_PAGE))
                                                    .build());
               }
@@ -248,8 +254,13 @@ public class MyBalMenu extends Menu {
           final Optional<Currency> currencyOptional = TNECore.eco().currency().find((UUID)currencyUUID.get());
           if(currencyOptional.isPresent()) {
 
-            int i = 10;
+            final List<Integer> slots = GuiLayoutConfig.slots("MyBal", "Breakdown.Entries", 10, 12, 14, 16, 18, 20, 22, 24);
+            int i = 0;
             for(final HoldingsEntry entry : account.get().getHoldings(TNECore.eco().region().defaultRegion(), (UUID)currencyUUID.get())) {
+
+              if(i >= slots.size()) {
+                break;
+              }
 
               final MessageData balMessage = new MessageData("Messages.Menu.MyBal.Breakdown.Balance");
               balMessage.addReplacement("$balance", entry.getAmount());
@@ -257,8 +268,8 @@ public class MyBalMenu extends Menu {
               callback.getPage().addIcon(new IconBuilder(PluginCore.server().stackBuilder().of("PAPER", 1)
                                                                  .customName(Component.text(entry.getHandler().id()))
                                                                  .lore(Collections.singletonList(MessageHandler.grab(balMessage, id))))
-                                                 .withSlot(i).build());
-              i += 2;
+                                                 .withSlot(slots.get(i)).build());
+              i++;
             }
           }
         }

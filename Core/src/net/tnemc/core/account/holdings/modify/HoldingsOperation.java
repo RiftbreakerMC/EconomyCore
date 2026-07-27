@@ -58,10 +58,9 @@ public enum HoldingsOperation {
     @Override
     public BigDecimal perform(final BigDecimal value, final BigDecimal modifier) {
 
+      // decimal already carries the sign of the modifier, so value.add(decimal) is correct for
+      // both positive and negative percentages (e.g. -10% of 1000 -> 1000 + (-100) = 900).
       final BigDecimal decimal = value.multiply(modifier.divide(new BigDecimal(100), new MathContext(2, RoundingMode.DOWN)));
-      if(modifier.compareTo(BigDecimal.ZERO) < 0) {
-        return decimal.multiply(new BigDecimal(-1));
-      }
       return value.add(decimal);
     }
   },
