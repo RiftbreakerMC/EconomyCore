@@ -30,6 +30,14 @@ jobs:
           distribution: temurin
           cache: maven
 
+      - name: Set Paper and Folia compiler level
+        shell: bash
+        run: |
+          sed -i 's/<source>21<\/source>/<source>25<\/source>/g' PaperCore/pom.xml Folia/pom.xml
+          sed -i 's/<target>21<\/target>/<target>25<\/target>/g' PaperCore/pom.xml Folia/pom.xml
+          sed -i 's/<release>21<\/release>/<release>25<\/release>/g' PaperCore/pom.xml Folia/pom.xml
+          grep -nE '<(source|target|release)>25</(source|target|release)>' PaperCore/pom.xml Folia/pom.xml
+
       - name: Build JARs with Maven
         id: maven
         shell: bash
